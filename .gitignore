@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+tmp/ClientSettings.json
+tmp/credentials.txt
+tmp/apiKey.txt
