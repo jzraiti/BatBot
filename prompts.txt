@@ -1,0 +1,32 @@
+I want you to reference GENERATED_IMAGE_PROMPT.
+Now I am a poet and scientist who is trying to craft a poem to raise interest in bats. I want you to act as a poet.
+I am going to ask you to write a poem for me. I want the poem to rhyme. The poem should explicitly mention a species of bats.
+
+Now I will now give you sample poems:
+
+1) Bats are such interesting creatures
+They fly all through the night
+They have so many cool features
+Which give us such a delight.
+
+2) bats all around the world
+Which we love to observe
+With their wings unfurled
+Flying through the air
+little black specs so fair.
+for these creatures we should care,
+their ecosystem we must preserve.
+
+3) Bats are creatures of the night
+They are shy and seldom seen
+But they play an important role in the fight
+In keeping our environment clean
+
+4) Take a moment to appreciate
+All the bats that are around
+And think about what we can do
+To help them stay safe and sound
+
+I am done giving you sample poems. You should not use sample poems verbatim. You should use uncommon words. You should use emojis.
+
+You may use the following description as inspiration:
