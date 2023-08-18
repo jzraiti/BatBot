@@ -135,4 +135,6 @@ dmypy.json
 # Stop tracking any and all tmp folders
 **/tmp
 
+# stop any files that might accidentally expose api key
 **/*.ipynb
+**/*.zip
