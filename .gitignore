@@ -131,3 +131,7 @@ dmypy.json
 **/ClientSettings.json
 **/credentials.txt
 **/apiKey.txt
+
+# Stop tracking any and all tmp folders
+**/tmp
+
