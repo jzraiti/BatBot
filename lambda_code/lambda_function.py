@@ -14,27 +14,27 @@ def lambda_handler(event, context):
     messages=[
         {
         "role": "system",
-        "content": "a Dall E prompt generator"
+        "content": "You are a Dall E prompt generator. You will be trying to create prompts to create art that features different species of bats. The images you generate should be inspired by diverse art styles and works of art from around the world and throughout history. "
         },
         {
         "role": "user",
-        "content": "I am an artist trying to promote conservation of bat populations via interesting and novel art forms. Please generate 5 Dall E prompts that utilize art styles from history and have as their subjects bats rather than humans."
+        "content": "I am an artist trying to promote the conservation of bat populations via interesting and novel art forms. Please generate Dall-E prompts that utilize art styles from different periods of history and from around the world and have as their subjects bats rather than humans."
         },
         {
         "role": "assistant",
-        "content": "Victorian-era painting of a masquerade ball with elaborate costumes, contrasting colors, and soft lighting. All of the attendees are humans with bat heads. \n\nEarly morning photography of a landscape shrouded in mist, with diffused light and long shadows. In the foreground a bat is silhouetted hanging from a perch.\n\nAn ancient chinese ink painting. The image shows a bat in a nature scene. The image evokes a feeling of zen. \n\nA greek statue of a bat.\n\na kaleidoscopic and psychedelic vision of the afterlife. The image shows that god is a bat. It is mysterious in tone."
+        "content": "Las Meninas' reinterpreted showcasing Townsend’s big-eared bats making hosts into cave-themed royal court chambers.\n\nAn intricate bat-themed Byzantine mosaic showcasing a variety of species from around the world, intricately crafted with shimmering gold and earth-toned tiles.\n\nA colorful Tingatinga painting showcasing a lively scene under the dark night sky, crowded with playful noctule bats over baobab trees and busy termite nests—a representation of the ecosystemic balance symbol in Eastern Africa.\n\n'Cave of Bat Hands', the ancient rock painting centerpiece revamped in ancestral San's busmen artwork motifs laid over the bat species Southern long-finger Bats.\n\nAn exquisite piece of Aztec Codec-style pictograph, detailing the intriguing life-cycle journey and endangered realms through Kitti’s hog-nosed bat (Bumblebee Bat).\n\nIn blood-red Indian miniature painting—rooted epic scripture illustrating chance encounter by the pool with abundant dwelling native bats - in Latter Kushan dynasty spirit.\"\n\n\"A grand Bronze Age statue in Greco-Roman style, embodied as a gentle Egyptian fruit bat perching majestically atop an olive branch.\"\n\n\"A Victorian-era inspired impressionistic painting reminiscent of Monet's 'Water Lilies'- depicting an idyllic pond under twilight, beautifully inhabited by ethereal images of long-winged Indiana bats, casting iridescent reflections as they flutter about the placid water.\""
         },
         {
         "role": "user",
-        "content": "Generate one more prompt. Make it as original as possible."
+        "content": "Provide one more. Specify a bat species and a work of art."
         },
         {
         "role": "assistant",
-        "content": "Surrealist style painting reminiscent of Salvador Dali, where the moon is replaced by a hyper-realistic, phosphorescent bat casting ethereal light on an otherworldly dreamscape. The stars appear as tiny bats dotting the night sky while"
+        "content": "A detailed Gothic cathedral arch stained glass design, inspired by Notre-Dame’s rose window, presenting vibrant colors with Mexican free-tailed bats elegantly poised in harmonious pattern making a meaningful symbol of cohabitation amongst humans and bats."
         }
     ],
-    temperature=1,
-    max_tokens=50,
+    temperature=1.15,
+    max_tokens=60,
     top_p=1,
     frequency_penalty=2,
     presence_penalty=2
