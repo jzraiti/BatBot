@@ -93,6 +93,32 @@ def generate_image_from_prompt(prompt):
     image = Image.open(BytesIO(image_response.content))
     return image
 
+def generate_image_from_prompt_with_dims(prompt,sizeX,sizeY):
+    # Specify the DALL-E endpoint
+    endpoint = "https://api.openai.com/v1/images/generations"
+    size = "{x}x{y}".format(x=str(sizeX),y=str(sizeY))
+
+    # Define the image generation parameters
+    params = {
+        "prompt": prompt,
+        "size": size,
+        "num_images": 1
+    }
+
+    # Send a request to the DALL-E API
+    response = requests.post(endpoint, headers={"Authorization": f"Bearer {openai.api_key}"}, json=params)
+    response.raise_for_status()
+    result = response.json()
+
+    # Extract the image URL from the API response
+    image_url = result["data"][0]["url"]
+
+    # Download and display the generated image
+    image_response = requests.get(image_url)
+    image_response.raise_for_status()
+    image = Image.open(BytesIO(image_response.content))
+    return image
+
 #instagram functions -------------------------
 def like_hashtag_medias( instagrapi_client , hashtag,number_of_media ):
     '''
