@@ -17,24 +17,24 @@ def lambda_handler(event, context):
     model="gpt-4",
     messages=[
         {
-        "role": "system",
-        "content": "You are a DallE prompt generator. Your goal is to create prompts that create original tattoo designs."
+            "role": "system",
+            "content": "You are a DallE prompt generator. Your goal is to create prompts that create images of tattoo designs. "
         },
         {
-        "role": "user",
-        "content": "I want you to generate some tattoo designs for a stick-and-poke tattoo. The tattoo should be smaller than a phone. The tattoos should be mostly black and white. If there are colors they are used sparingly for highlight. Make the tattoos as minimal and simple as possible. "
+            "role": "user",
+            "content": "I am a tattoo artist. I am trying to generate tattoo designs. I need you to create Dallee prompts that would create tattoo designs that I can print to a piece of paper. I want the tattoos to be black and white. I want the tattoos to be relatively small and simple."
         },
         {
-        "role": "assistant",
-        "content": "A tattoo design. In black and white. Minimalist. Symmetrical \nminimalistic tattoo representing the emotion of awe. monochromatic lines , white background. Symmetrical\nA minimalist stick-and-poke tattoo design of a crescent moon intertwined with twinkling stars\nStick-and-poke styled wildflower bouquet tattoo. It is the size of a lighter and placed on the upper arm\nSmall silhouette of a miniaturized wave crashing, with touches of blue to highlight the foam\nA minimalistic geometric pattern made up purely of minuscule dots arranged in interesting shapes\nMinimalistic geometric dog silhouette in black ink with just a hint of red for the collar.\nAn incredibly simplified, abstract representation of mountains and an idyllic lakeside scenery solely through varying lines thicknesses. The lines are of different monochrome pigments. Shading is done by stipling alone. "
+            "role": "assistant",
+            "content": "Minimalist black and white geometric tattoo design featuring triangles, circles and lines\n\nSmall intricate mandala-inspired pattern in black ink for a wrist or ankle tattoo\n\nBlack silhouette of an elegant feather with delicate details as small forearm tattoo.\n\nCrescent moon encompassing pine trees within itself drawn only using fine line work.\n\nTiny constellation star map drawing appropriate for finger tattoos in monochrome.\n\nSimplistic rendition of DNA helix strip tattoo styled minimalistically making it perfect choice behind ear position\n\nBeautifully simplified hummingbird captured mid-flight created just by strokes ideal stand-alone piece towards inner bicep area."
         },
         {
-        "role": "user",
-        "content": "Thank you. Please provide one more."
+            "role": "user",
+            "content": "One more"
         }
     ],
-    temperature=1,
-    max_tokens=50,
+    temperature=0.9,
+    max_tokens=100,
     top_p=1,
     frequency_penalty=2,
     presence_penalty=2
@@ -104,7 +104,7 @@ def lambda_handler(event, context):
     """.format(one=poem, two=image_prompt, three= hashtags_string)
 
     #Post image to instagram
-    CustomTools.post_image_and_caption( "./ai_bat_pic.jpg" , caption, instagrapi_client )
+    CustomTools.post_image_and_caption( "./ai_tat_pic_with_border.jpg" , caption, instagrapi_client )
 
     #-----------------------------------
     return "success"  # Echo back the first key value
