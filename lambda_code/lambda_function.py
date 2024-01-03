@@ -56,7 +56,7 @@ def lambda_handler(event, context):
         },
         {
         "role": "user",
-        "content": "Write an original short poem about bats. Use evocative language. The poem should promote environmentalism OR be humorous. Make it no longer than 15 words."
+        "content": "Write an original short poem about bats. Use evocative language. The poem should promote environmentalism OR be humorous OR be from the perspective of a bat. Make it no longer than 15 words."
         },
         {
         "role": "user",
