@@ -1,53 +1,71 @@
 import CustomTools
-import openai
+from openai import OpenAI
 import os
+import requests
+from io import BytesIO
+from PIL import Image
+
 
 def lambda_handler(event, context):
     print('Loading function')
     #-----------------------------------
+    #login to instagram
+    instagrapi_client = CustomTools.instagram_api_login("./secrets/credentials.txt","./secrets/ClientSettings.json")
 
-    instagrapi_client = CustomTools.login("./secrets/apiKey.txt","./secrets/credentials.txt","./secrets/ClientSettings.json")
+    #openai client
+    with open ("./secrets/apiKey.txt", "r") as f:
+        key = f.read()
+    print(key)
+    openai_client = OpenAI(api_key=key)
 
-    #generate dalle prompt - using openai playground
-    response = openai.ChatCompletion.create(
+    #Generate image prompt
+    response = openai_client.chat.completions.create(
     model="gpt-4",
     messages=[
         {
         "role": "system",
-        "content": "You are a Dall E prompt generator. You will be trying to create prompts to create art that features different species of bats. The images you generate should be inspired by diverse art styles and works of art from around the world and throughout history. "
+        "content": "You are a Dall E prompt generator. You will be trying to create prompts to create art that features different species of fungi. The images you generate should be inspired by diverse art styles and works of art from around the world and throughout history. "
         },
         {
         "role": "user",
-        "content": "I am an artist trying to promote the conservation of bat populations via interesting and novel art forms. Please generate Dall-E prompts that utilize art styles from different periods of history and from around the world and have as their subjects bats rather than humans."
+        "content": "I am an artist trying to promote the research and conservation of fungi via interesting and novel art forms. Please generate Dall-E prompts that utilize art styles from different periods of history and around the world and add fungi to them."
         },
         {
         "role": "assistant",
-        "content": "Las Meninas' reinterpreted showcasing Townsend’s big-eared bats making hosts into cave-themed royal court chambers.\n\nAn intricate bat-themed Byzantine mosaic showcasing a variety of species from around the world, intricately crafted with shimmering gold and earth-toned tiles.\n\nA colorful Tingatinga painting showcasing a lively scene under the dark night sky, crowded with playful noctule bats over baobab trees and busy termite nests—a representation of the ecosystemic balance symbol in Eastern Africa.\n\n'Cave of Bat Hands', the ancient rock painting centerpiece revamped in ancestral San's busmen artwork motifs laid over the bat species Southern long-finger Bats.\n\nAn exquisite piece of Aztec Codec-style pictograph, detailing the intriguing life-cycle journey and endangered realms through Kitti’s hog-nosed bat (Bumblebee Bat).\n\nIn blood-red Indian miniature painting—rooted epic scripture illustrating chance encounter by the pool with abundant dwelling native bats - in Latter Kushan dynasty spirit.\"\n\n\"A grand Bronze Age statue in Greco-Roman style, embodied as a gentle Egyptian fruit bat perching majestically atop an olive branch.\"\n\n\"A Victorian-era inspired impressionistic painting reminiscent of Monet's 'Water Lilies'- depicting an idyllic pond under twilight, beautifully inhabited by ethereal images of long-winged Indiana bats, casting iridescent reflections as they flutter about the placid water.\""
+        "content": "A traditional Japanese Ukiyo-e styled print depicting a serene landscape with giant mushrooms dropping spores instead of cherry blossom trees dropping leaves.\n An Aztec codex inspired illustration incorporating corn smut fungus, honoring their reverence for this delicacy, also known as huitlacoche \n.A Greek amphora illustration depicting the myth of Dionysus discovering wine through yeast fungi.\n An intricate, 17th-century Dutch Golden Age still life, including a variety of mushrooms and lichens among the typical fruits and flowers.\n An Art Nouveau masterpiece in the style of Gustav Klimt but with mycelium and hyphae connecting the figures instead of symbolic shapes."
         },
         {
         "role": "user",
-        "content": "Provide one more. Specify a bat species and a work of art."
-        },
-        {
-        "role": "assistant",
-        "content": "A detailed Gothic cathedral arch stained glass design, inspired by Notre-Dame’s rose window, presenting vibrant colors with Mexican free-tailed bats elegantly poised in harmonious pattern making a meaningful symbol of cohabitation amongst humans and bats."
+        "content": "Thank you. Please provide one more."
         }
     ],
-    temperature=1.15,
-    max_tokens=60,
-    top_p=1,
-    frequency_penalty=2,
-    presence_penalty=2
+        temperature=1.1,
+        max_tokens=50,
+        top_p=1,
+        frequency_penalty=1,
+        presence_penalty=1
     )
-
-    image_prompt = response["choices"][0]["message"]["content"]
+    image_prompt = response.choices[0].message.content
     print('Image Prompt:', image_prompt)
 
     #Generate image based on image prompt
-    image = CustomTools.generate_image_from_prompt( image_prompt )
+    response = openai_client.images.generate(
+        model="dall-e-3",
+        prompt=image_prompt,
+        size="1024x1024",
+        quality="standard",
+        n=1,
+    )
+
+    image_url = response.data[0].url
+
+    # Download and display the generated image
+    image_response = requests.get(image_url)
+    image_response.raise_for_status()
+    image = Image.open(BytesIO(image_response.content))
 
     #Generate a caption
-    response = openai.ChatCompletion.create(
+    response = openai_client.chat.completions.create(
     model="gpt-4",
     messages=[
         {
@@ -56,11 +74,11 @@ def lambda_handler(event, context):
         },
         {
         "role": "user",
-        "content": "Write an original short poem about bats. Use evocative language. The poem should promote environmentalism OR be humorous OR be from the perspective of a bat. Make it no longer than 15 words."
+        "content": "Write an original short poem about fungi. Use evocative language. The poem should promote environmentalism OR be humorous OR be from the fungus. Make it no longer than 15 words."
         },
         {
         "role": "user",
-        "content": ("for context, the following is a description of an image which will accompany your poem: " + image_prompt )
+        "content": ("For context, the following is a description of an image that will accompany your poem: " + image_prompt )
         }
     ],
     temperature=1,
@@ -70,28 +88,33 @@ def lambda_handler(event, context):
     presence_penalty=2
     )
 
-    poem = response["choices"][0]["message"]["content"]
+    poem = response.choices[0].message.content
     print('Caption:', poem)
 
     #Declare Hashtags
-    hashtags_list = [ "#savethebats", "#batsarecool", "#batsofinstagram", "#Bats", "#BatLove", "#fruitbat", "#aiart", "#ai", "#chatgpt", "#dalle", "#bat" ]
+    hashtags_list = [ "#mushroom", "#fungi", "#mushroomart", "#mycologysociety", "#mycology", "#psychedelic", "#psychedelicart", "#ai", "#chatgpt", "#dalle", "mushroomartworks", "#fungilove" ]
     hashtags_string = " ".join(str(x) for x in hashtags_list)
 
     #Make compound caption:
     caption = """{one}
 
-    inspiration: {two}
+    Support the research and conservation of fungi:
+    https://www.centraltexasmycology.org/
 
     {three}
-    """.format(one=poem, two=image_prompt, three= hashtags_string)
+    """.format(one=poem, three= hashtags_string)
+
+    max_number_of_likes = 3
+    try:
+        CustomTools.like_list_of_hashtag_medias(instagrapi_client, hashtags_list, max_number_of_likes)
+    except Exception as e:
+        print("Error occurred while executing CustomTools.like_list_of_hashtag_medias:", str(e))
 
     #Post image to instagram
     os.chdir("/tmp")
-    image.save("ai_bat_pic.jpg")
-    CustomTools.post_image_and_caption( "./ai_bat_pic.jpg" , caption, instagrapi_client )
+    image.save("ai_mush_pic.jpg")
+    CustomTools.post_image_and_caption( "./ai_mush_pic.jpg" , caption, instagrapi_client )
 
-    max_number_of_likes = 4
-    CustomTools.like_list_of_hashtag_medias(instagrapi_client, hashtags_list, max_number_of_likes)
 
     #-----------------------------------
     return "success"  # Echo back the first key value
